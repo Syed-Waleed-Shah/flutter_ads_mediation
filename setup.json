@@ -1,0 +1,30 @@
+{
+    "Google" : {
+
+        "appIdIOS":"ca-app-pub-3940256099942544~3347511713", 
+        "bannerIOS":"", 
+        "adManagerBannerIOS":"",
+        "interstitialIOS":"", 
+        "rewardedIOS":"",
+        "appIdAndroid":"ca-app-pub-3940256099942544~3347511713", 
+        "bannerAndroid":"", 
+        "adManagerBannerAndroid":"",
+        "interstitialAndroid":"", 
+        "rewardedAndroid":"",
+        "sdkVersion":"7.8.0"
+    }, 
+    "AppLovin" : {
+        "doSetup": true, 
+        "sdk_version":"10.3.5.0",
+        "sdk_key":"KEY-OF-APPLOVIN-SDK-123"
+    },
+
+    "Facebook" : {
+        "doSetup": false, 
+        "sdk_version":"6.0.0.0"
+    }, 
+    "AdColony" : {
+        "doSetup": false, 
+        "sdk_version":"4.6.5.0"
+    }
+}

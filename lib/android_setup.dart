@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'dart:io';
-
-import 'package:ads_mediation_setup/models/ad_colony.dart';
-import 'package:ads_mediation_setup/models/app_lovin.dart';
-import 'package:ads_mediation_setup/models/facebook.dart';
-import 'package:ads_mediation_setup/models/google.dart';
-import 'package:ads_mediation_setup/models/tag.dart';
+import 'package:flutter_ads_mediation/models/ad_colony.dart';
+import 'package:flutter_ads_mediation/models/app_lovin.dart';
+import 'package:flutter_ads_mediation/models/facebook.dart';
+import 'package:flutter_ads_mediation/models/google.dart';
 import 'package:xml/xml.dart';
 
 import 'file_utils.dart';

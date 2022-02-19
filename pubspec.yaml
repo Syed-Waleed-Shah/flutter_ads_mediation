@@ -1,10 +1,8 @@
-name: ads_mediation_setup
-description: Change App Package Name with single command. Update
-  AndroidManifest, build.gradle, MainActivity files & move MainActivity file to
-  new directory structure automatically.
+name: flutter_ads_mediation
+description: A flutter package to setup, integrate and use google ads and other mediations very easily
 version: 1.1.0+2
-maintainer: Atiq Samtia (@AtiqSamtia)
-homepage: https://github.com/atiqsamtia/ads_mediation_setup
+maintainer: Syed Waleed Shah
+homepage: https://github.com/Syed-Waleed-Shah/flutter_ads_mediation
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

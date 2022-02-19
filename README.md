@@ -19,7 +19,7 @@ Performs all ad mediation setup and provide all necessary code to integrate ads 
 ## How To Use
 Just run following command on your flutter project
 ```bash
-flutter pub run ads_mediation_setup:main <path/to/setup.json> 
+flutter pub run flutter_ads_mediation:main <path/to/setup.json> 
 ```
 
 ------------

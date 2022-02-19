@@ -21,7 +21,7 @@
     },
     {
       "name": "google_mobile_ads",
-      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/google_mobile_ads-1.0.1",
+      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/google_mobile_ads-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -39,9 +39,9 @@
     },
     {
       "name": "petitparser",
-      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-4.1.0",
+      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-4.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "sky_engine",
@@ -63,18 +63,18 @@
     },
     {
       "name": "xml",
-      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.1.2",
+      "rootUri": "file:///D:/flutter_windows_2.2.3-stable/flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.3.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "flutter_ads_mediation",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-02-19T10:12:04.602132Z",
+  "generated": "2022-02-19T10:22:04.595745Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

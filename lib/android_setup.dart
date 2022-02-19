@@ -99,6 +99,7 @@ class AndroidSetup {
   // IOS : Function to update the Podfile file (add sdk dependencies)
   _iosPodfileUpdate() async {
     // Reading Podfile contents from file
+    if (!(await File(PODFILE_PATH).exists())) return;
     String plistData = await File(PODFILE_PATH).readAsString();
 
     // Reg expression match to find dependency import for google ads
@@ -141,6 +142,7 @@ class AndroidSetup {
 
   // IOS : Function to update the info.plist file (adding mediation setup)
   _iosInfoPlistUpdate() async {
+    if (!(await File(PLIST_PATH).exists())) return;
     // Reading Info.plist contents from file
     String plistData = await File(PLIST_PATH).readAsString();
     // Creating xml object
@@ -231,6 +233,7 @@ class AndroidSetup {
 
   // Android : Function to update the AndroidManifest.xml file (adding mediation setup)
   _androidManifestUpdate() async {
+    if (!(await File(PATH_MANIFEST).exists())) return;
     String manifestData = await File(PATH_MANIFEST).readAsString();
     final document = XmlDocument.parse(manifestData);
     List<XmlElement> metadatas = document.children.first
@@ -285,6 +288,7 @@ class AndroidSetup {
 
   // Android : Function to update the app level build.gradle file (add sdk dependencies)
   _buildGradleUpdate() async {
+    if (!(await File(APP_LEVEL_GRADLE).exists())) return;
     String gradleData = await File(APP_LEVEL_GRADLE).readAsString();
     String dependenciesBlock =
         RegExp(r'(dependencies)\s*.*{').firstMatch(gradleData)!.group(0)!;

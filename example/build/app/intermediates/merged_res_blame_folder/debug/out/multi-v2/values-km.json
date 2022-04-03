@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Syed Waleed\\Documents\\GitHub\\flutter_ads_mediation\\example\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-km\\values-km.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\2fa3c72ca073128d20912ee0a59c6ddd\\jetified-play-services-basement-17.6.0\\res\\values-km\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "207",
+                        "endOffsets": "454"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "207",
+                        "endOffsets": "308"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\5f663b08eec19eef9a9d1af662d9025e\\core-1.6.0\\res\\values-km\\values-km.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "17",
+                        "startColumns": "4",
+                        "startOffsets": "1458",
+                        "endColumns": "100",
+                        "endOffsets": "1554"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\ad39fc844cba57fb2947ae5cc409a1a4\\jetified-play-services-ads-20.4.0\\res\\values-km\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "199,282,400,455,579,635,765,873,916,1014,1049,1083,1146,1241",
+                        "endColumns": "82,117,54,123,55,129,107,42,97,34,33,62,94,46",
+                        "endOffsets": "281,399,454,578,634,764,872,915,1013,1048,1082,1145,1240,1287"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "313,400,522,581,709,769,903,1015,1062,1164,1203,1241,1308,1407",
+                        "endColumns": "86,121,58,127,59,133,111,46,101,38,37,66,98,50",
+                        "endOffsets": "395,517,576,704,764,898,1010,1057,1159,1198,1236,1303,1402,1453"
+                    }
+                }
+            ]
+        }
+    ]
+}

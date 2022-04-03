@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Syed Waleed\\Documents\\GitHub\\flutter_ads_mediation\\example\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es-rUS\\values-es-rUS.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\ad39fc844cba57fb2947ae5cc409a1a4\\jetified-play-services-ads-20.4.0\\res\\values-es-rUS\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "203,284,391,446,579,638,756,856,898,1002,1037,1073,1130,1220",
+                        "endColumns": "80,106,54,132,58,117,99,41,103,34,35,56,89,44",
+                        "endOffsets": "283,390,445,578,637,755,855,897,1001,1036,1072,1129,1219,1264"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "310,395,506,565,702,765,887,991,1037,1145,1184,1224,1285,1379",
+                        "endColumns": "84,110,58,136,62,121,103,45,107,38,39,60,93,48",
+                        "endOffsets": "390,501,560,697,760,882,986,1032,1140,1179,1219,1280,1374,1423"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\2fa3c72ca073128d20912ee0a59c6ddd\\jetified-play-services-basement-17.6.0\\res\\values-es-rUS\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "251",
+                        "endColumns": "204",
+                        "endOffsets": "455"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "204",
+                        "endOffsets": "305"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\5f663b08eec19eef9a9d1af662d9025e\\core-1.6.0\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "17",
+                        "startColumns": "4",
+                        "startOffsets": "1428",
+                        "endColumns": "100",
+                        "endOffsets": "1524"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Syed Waleed\\Documents\\GitHub\\flutter_ads_mediation\\example\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw\\values-sw.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\2fa3c72ca073128d20912ee0a59c6ddd\\jetified-play-services-basement-17.6.0\\res\\values-sw\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "204",
+                        "endOffsets": "451"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "204",
+                        "endOffsets": "305"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\5f663b08eec19eef9a9d1af662d9025e\\core-1.6.0\\res\\values-sw\\values-sw.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "17",
+                        "startColumns": "4",
+                        "startOffsets": "1337",
+                        "endColumns": "100",
+                        "endOffsets": "1433"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Syed Waleed\\.gradle\\caches\\transforms-2\\files-2.1\\ad39fc844cba57fb2947ae5cc409a1a4\\jetified-play-services-ads-20.4.0\\res\\values-sw\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "199,274,379,431,533,587,709,792,833,929,963,996,1045,1124",
+                        "endColumns": "74,104,51,101,53,121,82,40,95,33,32,48,78,45",
+                        "endOffsets": "273,378,430,532,586,708,791,832,928,962,995,1044,1123,1169"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "310,389,498,554,660,718,844,931,976,1076,1114,1151,1204,1287",
+                        "endColumns": "78,108,55,105,57,125,86,44,99,37,36,52,82,49",
+                        "endOffsets": "384,493,549,655,713,839,926,971,1071,1109,1146,1199,1282,1332"
+                    }
+                }
+            ]
+        }
+    ]
+}

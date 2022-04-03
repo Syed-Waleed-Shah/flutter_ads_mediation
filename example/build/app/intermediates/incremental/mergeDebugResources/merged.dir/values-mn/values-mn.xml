@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g>-г Google Play-н үйлчилгээгээр ашиглахад асуудал гарлаа. Дахин оролдоно уу."</string>
+    <string name="offline_notification_text">Зарыг нээхийн тулд товшино уу</string>
+    <string name="offline_notification_title">Та офлайн байхдаа хадгалсан зараа үзэх</string>
+    <string name="offline_opt_in_confirm">ОК</string>
+    <string name="offline_opt_in_confirmation">Та буцаад онлайн болохдоо холбоос бүхий мэдэгдэл авна</string>
+    <string name="offline_opt_in_decline">Үгүй</string>
+    <string name="offline_opt_in_message">Бид сурталчлагчийн сайтын холбоос бүхий мэдэгдлийг тан руу илгээх болно.</string>
+    <string name="offline_opt_in_title">Та буцаад онлайн болохдоо зарыг нээнэ үү.</string>
+    <string name="s1">Зураг хадгалах</string>
+    <string name="s2">Зарыг Зургийн цомогт зураг хадгалахыг зөвшөөрөх үү?</string>
+    <string name="s3">Зөвшөөрөх</string>
+    <string name="s4">Татгалзах</string>
+    <string name="s5">Календарийн үйл явдал үүсгэх</string>
+    <string name="s6">Зарыг календарийн үйл явдал үүсгэхийг зөвшөөрөх үү?</string>
+    <string name="s7">Тест зар</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+</resources>

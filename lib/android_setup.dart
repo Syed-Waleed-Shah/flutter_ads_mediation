@@ -462,6 +462,11 @@ class AdUnitId {
   }
 
   _getMainCode() async {
+    var exists =
+        await _fileExists(MAIN_PATH, 'ERROR > File Doesnt Exists : $MAIN_PATH');
+    if (!exists) {
+      return;
+    }
     String mainData = await File(MAIN_PATH).readAsString();
 
     String mainOpening =

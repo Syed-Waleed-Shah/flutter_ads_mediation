@@ -67,6 +67,16 @@ class AndroidSetup {
     });
   }
 
+  Future<bool> _fileExists(String path, String error) async {
+    var exists = await File(path).exists();
+    if (exists) {
+      return true;
+    } else {
+      print(error);
+      return false;
+    }
+  }
+
   // This is the setup just for AdColony mediation
   // Further info : https://developers.google.com/admob/android/mediation/adcolony
   _gradlePropertiesSetup() async {
@@ -98,6 +108,11 @@ class AndroidSetup {
 
   // IOS : Function to update the Podfile file (add sdk dependencies)
   _iosPodfileUpdate() async {
+    var exists = await _fileExists(
+        PODFILE_PATH, 'ERROR > File Doesnt Exists : $PODFILE_PATH');
+    if (!exists) {
+      return;
+    }
     // Reading Podfile contents from file
     String plistData = await File(PODFILE_PATH).readAsString();
 
@@ -141,6 +156,11 @@ class AndroidSetup {
 
   // IOS : Function to update the info.plist file (adding mediation setup)
   _iosInfoPlistUpdate() async {
+    var exists = await _fileExists(
+        PLIST_PATH, 'ERROR > File Doesnt Exists : $PLIST_PATH');
+    if (!exists) {
+      return;
+    }
     // Reading Info.plist contents from file
     String plistData = await File(PLIST_PATH).readAsString();
     // Creating xml object
@@ -231,6 +251,12 @@ class AndroidSetup {
 
   // Android : Function to update the AndroidManifest.xml file (adding mediation setup)
   _androidManifestUpdate() async {
+    var exists = await _fileExists(
+        PATH_MANIFEST, 'ERROR > File Doesnt Exists : $PATH_MANIFEST');
+    if (!exists) {
+      return;
+    }
+
     String manifestData = await File(PATH_MANIFEST).readAsString();
     final document = XmlDocument.parse(manifestData);
     List<XmlElement> metadatas = document.children.first
@@ -285,6 +311,11 @@ class AndroidSetup {
 
   // Android : Function to update the app level build.gradle file (add sdk dependencies)
   _buildGradleUpdate() async {
+    var exists = await _fileExists(
+        APP_LEVEL_GRADLE, 'ERROR > File Doesnt Exists : $APP_LEVEL_GRADLE');
+    if (!exists) {
+      return;
+    }
     String gradleData = await File(APP_LEVEL_GRADLE).readAsString();
     String dependenciesBlock =
         RegExp(r'(dependencies)\s*.*{').firstMatch(gradleData)!.group(0)!;

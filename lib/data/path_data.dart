@@ -5,26 +5,27 @@ const String PATH_MANIFEST_PROFILE =
 
 const String PATH_ACTIVITY = 'android/app/src/main/';
 
-const String APP_LEVEL_GRADLE = 'android/app/build.gradle';
-const String PLIST_PATH = 'ios/Runner/Info.plist';
-const String PODFILE_PATH = 'ios/Podfile';
-const String AD_UNIT_ID_PATH = 'lib/ad_unit_ids/ad_unit_id.dart';
-const String MAIN_PATH = 'lib/main.dart';
-const String GRADLE_PROPERTIES_PATH = 'android/gradle.properties';
+const String PATH_APP_LEVEL_GRADLE = 'android/app/build.gradle';
+const String PATH_TO_PLIST = 'ios/Runner/Info.plist';
+const String PATH_TO_PODFILE = 'ios/Podfile';
+const String PATH_AD_UNIT_ID = 'lib/ad_unit_ids/ad_unit_id.dart';
+const String PATH_MAIN = 'lib/main.dart';
+const String PATH_GRADLE_PROPERTIES = 'android/gradle.properties';
 
-const String APPLICATION_ID = """\n        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="APPLICATION_ID_HERE"/>""";
-const String APPLOVIN_SDK_KEY = """<meta-data
-            android:name="applovin.sdk.key"
-            android:value="APPLOVIN_SDK_KEY_HERE" />""";
+// const String APPLICATION_ID = """\n        <meta-data
+//             android:name="com.google.android.gms.ads.APPLICATION_ID"
+//             android:value="APPLICATION_ID_HERE"/>""";
+// const String APPLOVIN_SDK_KEY = """<meta-data
+//             android:name="applovin.sdk.key"
+//             android:value="APPLOVIN_SDK_KEY_HERE" />""";
 
-const String PODFILE_GOOGLE_IMPORT = """pod 'Google-Mobile-Ads-SDK'""";
-const String PODFILE_APPLOVIN_IMPORT =
+const String STRING_PODFILE_IMPORT_GOOGLE_ADS =
+    """pod 'Google-Mobile-Ads-SDK'""";
+const String STRING_PODFILE_IMPORT_APPLOVIN =
     """pod 'GoogleMobileAdsMediationAppLovin'""";
 
-const String PODFILE_FACEBOOK_IMPORT =
+const String STRING_PODFILE_IMPORT_FACEBOOK =
     """pod 'GoogleMobileAdsMediationFacebook'""";
 
-const String PODFILE_ADCOLONY_IMPORT =
+const String STRING_PODFILE_IMPORT_ADCOLONY =
     """pod 'GoogleMobileAdsMediationAdColony'""";

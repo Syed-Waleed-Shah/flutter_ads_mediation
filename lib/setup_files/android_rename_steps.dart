@@ -1,20 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter_ads_mediation/data/path_data.dart';
 import 'package:flutter_ads_mediation/utils/file_utils.dart';
 
 class AndroidRenameSteps {
   final String newPackageName;
   String? oldPackageName;
-
-  static const String PATH_BUILD_GRADLE = 'android/app/build.gradle';
-  static const String PATH_MANIFEST =
-      'android/app/src/main/AndroidManifest.xml';
-  static const String PATH_MANIFEST_DEBUG =
-      'android/app/src/debug/AndroidManifest.xml';
-  static const String PATH_MANIFEST_PROFILE =
-      'android/app/src/profile/AndroidManifest.xml';
-
-  static const String PATH_ACTIVITY = 'android/app/src/main/';
 
   AndroidRenameSteps(this.newPackageName);
 

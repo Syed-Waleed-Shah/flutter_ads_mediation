@@ -5,9 +5,8 @@ import 'package:flutter_ads_mediation/models/ad_colony.dart';
 import 'package:flutter_ads_mediation/models/app_lovin.dart';
 import 'package:flutter_ads_mediation/models/facebook.dart';
 import 'package:flutter_ads_mediation/models/google.dart';
+import 'package:flutter_ads_mediation/utils/file_utils.dart';
 import 'package:xml/xml.dart';
-
-import 'file_utils.dart';
 
 class AndroidSetup {
   final String PATH_MANIFEST = 'android/app/src/main/AndroidManifest.xml';

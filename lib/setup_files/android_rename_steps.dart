@@ -1,15 +1,18 @@
 import 'dart:io';
 
-import './file_utils.dart';
+import 'package:flutter_ads_mediation/utils/file_utils.dart';
 
 class AndroidRenameSteps {
   final String newPackageName;
   String? oldPackageName;
 
   static const String PATH_BUILD_GRADLE = 'android/app/build.gradle';
-  static const String PATH_MANIFEST = 'android/app/src/main/AndroidManifest.xml';
-  static const String PATH_MANIFEST_DEBUG = 'android/app/src/debug/AndroidManifest.xml';
-  static const String PATH_MANIFEST_PROFILE = 'android/app/src/profile/AndroidManifest.xml';
+  static const String PATH_MANIFEST =
+      'android/app/src/main/AndroidManifest.xml';
+  static const String PATH_MANIFEST_DEBUG =
+      'android/app/src/debug/AndroidManifest.xml';
+  static const String PATH_MANIFEST_PROFILE =
+      'android/app/src/profile/AndroidManifest.xml';
 
   static const String PATH_ACTIVITY = 'android/app/src/main/';
 
@@ -17,13 +20,15 @@ class AndroidRenameSteps {
 
   Future<void> process() async {
     if (!await File(PATH_BUILD_GRADLE).exists()) {
-      print('ERROR:: build.gradle file not found, Check if you have a correct android directory present in your project'
+      print(
+          'ERROR:: build.gradle file not found, Check if you have a correct android directory present in your project'
           '\n\nrun " flutter create . " to regenerate missing files.');
       return;
     }
     String? contents = await readFileAsString(PATH_BUILD_GRADLE);
 
-    var reg = RegExp('applicationId "(.*)"', caseSensitive: true, multiLine: false);
+    var reg =
+        RegExp('applicationId "(.*)"', caseSensitive: true, multiLine: false);
 
     var name = reg.firstMatch(contents!)!.group(1);
     oldPackageName = name;
@@ -48,11 +53,14 @@ class AndroidRenameSteps {
   Future<void> updateMainActivity() async {
     String oldPackagePath = oldPackageName!.replaceAll('.', '/');
     String javaPath = PATH_ACTIVITY + 'java/$oldPackagePath/MainActivity.java';
-    String kotlinPath = PATH_ACTIVITY + 'kotlin/$oldPackagePath/MainActivity.kt';
+    String kotlinPath =
+        PATH_ACTIVITY + 'kotlin/$oldPackagePath/MainActivity.kt';
 
     String newPackagePath = newPackageName.replaceAll('.', '/');
-    String newJavaPath = PATH_ACTIVITY + 'java/$newPackagePath/MainActivity.java';
-    String newKotlinPath = PATH_ACTIVITY + 'kotlin/$newPackagePath/MainActivity.kt';
+    String newJavaPath =
+        PATH_ACTIVITY + 'java/$newPackagePath/MainActivity.java';
+    String newKotlinPath =
+        PATH_ACTIVITY + 'kotlin/$newPackagePath/MainActivity.kt';
 
     if (await File(javaPath).exists()) {
       print('Project is using Java');
@@ -60,7 +68,8 @@ class AndroidRenameSteps {
       await _replace(javaPath);
 
       print('Creating New Directory Structure');
-      await Directory(PATH_ACTIVITY + 'java/$newPackagePath').create(recursive: true);
+      await Directory(PATH_ACTIVITY + 'java/$newPackagePath')
+          .create(recursive: true);
       await File(javaPath).rename(newJavaPath);
 
       print('Deleting old directories');
@@ -71,13 +80,15 @@ class AndroidRenameSteps {
       await _replace(kotlinPath);
 
       print('Creating New Directory Structure');
-      await Directory(PATH_ACTIVITY + 'kotlin/$newPackagePath').create(recursive: true);
+      await Directory(PATH_ACTIVITY + 'kotlin/$newPackagePath')
+          .create(recursive: true);
       await File(kotlinPath).rename(newKotlinPath);
 
       print('Deleting old directories');
       await deleteOldDirectories('kotlin', oldPackageName!, PATH_ACTIVITY);
     } else {
-      print('ERROR:: Unknown Directory structure, both java & kotlin files not found.');
+      print(
+          'ERROR:: Unknown Directory structure, both java & kotlin files not found.');
     }
   }
 

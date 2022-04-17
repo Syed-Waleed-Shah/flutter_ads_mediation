@@ -67,7 +67,7 @@ class AndroidSetup {
     data += '\n$str1';
     data += '\n$str2';
 
-    _saveFile(PATH_GRADLE_PROPERTIES, data);
+    saveFile(PATH_GRADLE_PROPERTIES, data);
   }
 
   // IOS : Function to update the Podfile file (add sdk dependencies)
@@ -79,11 +79,11 @@ class AndroidSetup {
     String plistData = await File(PATH_TO_PODFILE).readAsString();
 
     // Reg expression match to find dependency import for google ads
-    RegExp google = RegExp(r"(pod)\s*'Google-Mobile-Ads-SDK'");
+    RegExp google = RegExp(CHECK_GOOGLE_MOBILE_AD_SDK_REGEX_STRING);
     String? googleImport = google.firstMatch(plistData)?.group(0);
 
     // Reg expression match to find dependency import for appLovin ads
-    RegExp appLovin = RegExp(r"(pod)\s*'GoogleMobileAdsMediationAppLovin'");
+    RegExp appLovin = RegExp(CHECK_APPLOVIN_SDK_REGEX_STRING);
     String? appLovinImport = appLovin.firstMatch(plistData)?.group(0);
 
     // Reg expression match to find dependency import for Facebook ads
@@ -113,7 +113,7 @@ class AndroidSetup {
       plistData += '\n$STRING_PODFILE_IMPORT_ADCOLONY';
     }
     // Saving the updated Podfile
-    await _saveFile(PATH_TO_PODFILE, plistData);
+    await saveFile(PATH_TO_PODFILE, plistData);
   }
 
   // IOS : Function to update the info.plist file (adding mediation setup)
@@ -124,7 +124,7 @@ class AndroidSetup {
     // Reading Info.plist contents from file
     String plistData = await File(PATH_TO_PLIST).readAsString();
     // Creating xml object
-    final document = XmlDocument.parse(plistData);
+    final XmlDocument document = XmlDocument.parse(plistData);
     // Extracting the keys from the Info.plist file which is at <plist><dict>(all keys are here)</dict></plist>
     var keys = document
         .findElements('plist')
@@ -206,7 +206,7 @@ class AndroidSetup {
     // Prettifying (formatting) updated Info.plist data
     String updatedPlistData = document.toXmlString(pretty: true, indent: '\t');
     // Saving the updated Info.plist data
-    await _saveFile(PATH_TO_PLIST, updatedPlistData);
+    await saveFile(PATH_TO_PLIST, updatedPlistData);
   }
 
   // Android : Function to update the AndroidManifest.xml file (adding mediation setup)
@@ -216,13 +216,13 @@ class AndroidSetup {
     }
 
     String manifestData = await File(PATH_MANIFEST).readAsString();
-    final document = XmlDocument.parse(manifestData);
+    final XmlDocument document = XmlDocument.parse(manifestData);
     List<XmlElement> metadatas = document.children.first
         .findAllElements('application')
         .first
         .findElements('meta-data')
         .toList();
-    var application =
+    var _application =
         document.children.first.findAllElements('application').first.children;
 
     bool _googleConfigured = false;
@@ -231,40 +231,41 @@ class AndroidSetup {
     metadatas.forEach((element) {
       if (element.attributes[0].value ==
           'com.google.android.gms.ads.APPLICATION_ID') {
-        application.remove(element);
+        _application.remove(element);
         element.attributes[1].value = _google.appIdAndroid;
-        application.insert(0, element);
+        _application.insert(0, element);
         _googleConfigured = true;
       }
       if (_appLovin.doSetup &&
           element.attributes[0].value == 'applovin.sdk.key') {
         element.attributes[1].value = _appLovin.sdkKey;
-        application.remove(element);
-        application.insert(0, element);
+        _application.remove(element);
+        _application.insert(0, element);
         _appLovinConfigured = true;
       }
     });
 
     if (!_googleConfigured) {
-      var nameAttr = XmlAttribute(
+      XmlAttribute nameAttr = XmlAttribute(
           XmlName('android:name'), 'com.google.android.gms.ads.APPLICATION_ID');
-      var valueAttr =
+      XmlAttribute valueAttr =
           XmlAttribute(XmlName('android:value'), '${_google.appIdAndroid}');
-      application.insert(
+      _application.insert(
           0, XmlElement(XmlName('meta-data'), [nameAttr, valueAttr]));
     }
 
     if (_appLovin.doSetup && !_appLovinConfigured) {
-      var nameAttr = XmlAttribute(XmlName('android:name'), 'applovin.sdk.key');
-      var valueAttr =
+      XmlAttribute nameAttr =
+          XmlAttribute(XmlName('android:name'), 'applovin.sdk.key');
+      XmlAttribute valueAttr =
           XmlAttribute(XmlName('android:value'), '${_appLovin.sdkKey}');
-      application.insert(
+      _application.insert(
           0, XmlElement(XmlName('meta-data'), [nameAttr, valueAttr]));
     }
 
     String updatedManifestData =
         document.toXmlString(pretty: true, indent: '\t');
-    await _saveFile(PATH_MANIFEST, updatedManifestData);
+    await saveFile(PATH_MANIFEST, updatedManifestData);
   }
 
   // Android : Function to update the app level build.gradle file (add sdk dependencies)
@@ -317,12 +318,12 @@ class AndroidSetup {
           _addDependency(dependencies, _adColony.sdk, _adColony.sdkVersion);
     }
 
-    var str = dependencies.join('\n');
+    String str = dependencies.join('\n');
     String updatedDependenciesBlock = "dependencies {\n$str\n}";
 
     gradleData =
         gradleData.replaceAll(dependenciesBlockData, updatedDependenciesBlock);
-    await File(PATH_APP_LEVEL_GRADLE).writeAsString(gradleData);
+    await saveFile(PATH_APP_LEVEL_GRADLE, gradleData);
   }
 
   // Function to add sdk implementation in build.gradle file
@@ -402,12 +403,8 @@ class AdUnitId {
 
     File(PATH_AD_UNIT_ID).create(recursive: true);
     await Future.delayed(Duration(seconds: 5)).then((value) {
-      _saveFile(PATH_AD_UNIT_ID, adUnitIdClass);
+      saveFile(PATH_AD_UNIT_ID, adUnitIdClass);
     });
-  }
-
-  Future<File> _saveFile(String filePath, String data) async {
-    return await File(filePath).writeAsString(data);
   }
 
   _getMainCode() async {
@@ -452,6 +449,6 @@ class AdUnitId {
 
     mainData = "import 'package:google_mobile_ads/google_mobile_ads.dart';\n" +
         mainData;
-    _saveFile(PATH_MAIN, mainData);
+    saveFile(PATH_MAIN, mainData);
   }
 }

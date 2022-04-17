@@ -1,6 +1,5 @@
 library ads_mediation_setup;
 
-import './android_rename_steps.dart';
 import 'android_setup.dart';
 
 class AdsMediationSetup {

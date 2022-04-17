@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_ads_mediation/data/code_strings.dart';
-import 'package:flutter_ads_mediation/data/path_data.dart';
-import 'package:flutter_ads_mediation/data/regex_strings.dart';
+import 'package:flutter_ads_mediation/global/data/code_strings.dart';
+import 'package:flutter_ads_mediation/global/data/path_data.dart';
+import 'package:flutter_ads_mediation/global/data/regex_strings.dart';
+import 'package:flutter_ads_mediation/global/utils/file_utils.dart';
 import 'package:flutter_ads_mediation/models/ad_colony.dart';
 import 'package:flutter_ads_mediation/models/app_lovin.dart';
 import 'package:flutter_ads_mediation/models/facebook.dart';
 import 'package:flutter_ads_mediation/models/google.dart';
-import 'package:flutter_ads_mediation/utils/file_utils.dart';
 import 'package:xml/xml.dart';
 
 class AndroidSetup {

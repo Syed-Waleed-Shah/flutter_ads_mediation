@@ -12,13 +12,6 @@ const String PATH_AD_UNIT_ID = 'lib/ad_unit_ids/ad_unit_id.dart';
 const String PATH_MAIN = 'lib/main.dart';
 const String PATH_GRADLE_PROPERTIES = 'android/gradle.properties';
 
-// const String APPLICATION_ID = """\n        <meta-data
-//             android:name="com.google.android.gms.ads.APPLICATION_ID"
-//             android:value="APPLICATION_ID_HERE"/>""";
-// const String APPLOVIN_SDK_KEY = """<meta-data
-//             android:name="applovin.sdk.key"
-//             android:value="APPLOVIN_SDK_KEY_HERE" />""";
-
 const String STRING_PODFILE_IMPORT_GOOGLE_ADS =
     """pod 'Google-Mobile-Ads-SDK'""";
 const String STRING_PODFILE_IMPORT_APPLOVIN =

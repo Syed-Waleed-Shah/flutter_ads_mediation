@@ -10,13 +10,13 @@ class AndroidRenameSteps {
   AndroidRenameSteps(this.newPackageName);
 
   Future<void> process() async {
-    if (!await File(APP_LEVEL_GRADLE).exists()) {
+    if (!await File(PATH_APP_LEVEL_GRADLE).exists()) {
       print(
           'ERROR:: build.gradle file not found, Check if you have a correct android directory present in your project'
           '\n\nrun " flutter create . " to regenerate missing files.');
       return;
     }
-    String? contents = await readFileAsString(APP_LEVEL_GRADLE);
+    String? contents = await readFileAsString(PATH_APP_LEVEL_GRADLE);
 
     RegExp reg =
         RegExp('applicationId "(.*)"', caseSensitive: true, multiLine: false);
@@ -27,7 +27,7 @@ class AndroidRenameSteps {
     print("Old Package Name: $oldPackageName");
 
     print('Updating build.gradle File');
-    await _replace(APP_LEVEL_GRADLE);
+    await _replace(PATH_APP_LEVEL_GRADLE);
 
     print('Updating Main Manifest file');
     await _replace(PATH_MANIFEST);

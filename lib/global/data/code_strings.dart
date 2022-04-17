@@ -20,3 +20,14 @@ class AdUnitId {
 }
 
 """;
+
+const String STRING_PODFILE_IMPORT_GOOGLE_ADS =
+    """pod 'Google-Mobile-Ads-SDK'""";
+const String STRING_PODFILE_IMPORT_APPLOVIN =
+    """pod 'GoogleMobileAdsMediationAppLovin'""";
+
+const String STRING_PODFILE_IMPORT_FACEBOOK =
+    """pod 'GoogleMobileAdsMediationFacebook'""";
+
+const String STRING_PODFILE_IMPORT_ADCOLONY =
+    """pod 'GoogleMobileAdsMediationAdColony'""";

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_ads_mediation/global/data/path_data.dart';
+import 'package:flutter_ads_mediation/global/data/file_paths.dart';
 import 'package:flutter_ads_mediation/global/utils/file_utils.dart';
 
 class AndroidRenameSteps {

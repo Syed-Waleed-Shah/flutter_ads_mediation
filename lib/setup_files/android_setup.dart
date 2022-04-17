@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_ads_mediation/data/code_strings.dart';
 import 'package:flutter_ads_mediation/data/path_data.dart';
 import 'package:flutter_ads_mediation/data/regex_strings.dart';
 import 'package:flutter_ads_mediation/models/ad_colony.dart';
@@ -48,7 +49,7 @@ class AndroidSetup {
     String str1 = 'android.useAndroidX=true';
     String str2 = 'android.enableJetifier=true';
     String data = '';
-    if (await File(PATH_GRADLE_PROPERTIES).exists()) {
+    if (await fileExists(PATH_GRADLE_PROPERTIES)) {
       data = await File(PATH_GRADLE_PROPERTIES).readAsString();
     } else {
       File(PATH_AD_UNIT_ID).create(recursive: true);
@@ -67,7 +68,7 @@ class AndroidSetup {
     data += '\n$str1';
     data += '\n$str2';
 
-    saveFile(PATH_GRADLE_PROPERTIES, data);
+    await saveFile(PATH_GRADLE_PROPERTIES, data);
   }
 
   // IOS : Function to update the Podfile file (add sdk dependencies)
@@ -87,11 +88,11 @@ class AndroidSetup {
     String? appLovinImport = appLovin.firstMatch(plistData)?.group(0);
 
     // Reg expression match to find dependency import for Facebook ads
-    RegExp facebook = RegExp(r"(pod)\s*'GoogleMobileAdsMediationFacebook'");
+    RegExp facebook = RegExp(CHECK_FACEBOOK_SDK_REGEX_STRING);
     String? facebookImport = facebook.firstMatch(plistData)?.group(0);
 
     // Reg expression match to find dependency import for AdColony ads
-    RegExp adColony = RegExp(r"(pod)\s*'GoogleMobileAdsMediationAdColony'");
+    RegExp adColony = RegExp(CHECK_ADCOLONY_SDK_REGEX_STRING);
     String? adColonyImport = adColony.firstMatch(plistData)?.group(0);
 
     // Adding google ads dependency import when dependency import doesnt exists for google ads
@@ -361,16 +362,7 @@ class AndroidSetup {
     print(_facebook.toJson());
 
     // Generating code file for ad unit ids in users lib/ad_unit_ids
-    String adUnitIdClass = """import 'dart:io';
-
-class AdUnitId {
-  static String banner = Platform.isAndroid ? '' : '';
-  static String adManagerBanner = Platform.isAndroid ? '' : '';
-  static String interstitial = Platform.isAndroid ? '' : '';
-  static String rewarded = Platform.isAndroid ? '' : '';
-}
-
-""";
+    String adUnitIdClass = AD_UNIT_CALSS_CODE;
 
     // Adding banner ad id
     String? exp =
@@ -402,8 +394,8 @@ class AdUnitId {
           "static String rewarded = Platform.isAndroid ? '${_google.rewardedAndroid}' : '${_google.rewardedIOS}';");
 
     File(PATH_AD_UNIT_ID).create(recursive: true);
-    await Future.delayed(Duration(seconds: 5)).then((value) {
-      saveFile(PATH_AD_UNIT_ID, adUnitIdClass);
+    await Future.delayed(Duration(seconds: 5)).then((value) async {
+      await saveFile(PATH_AD_UNIT_ID, adUnitIdClass);
     });
   }
 
@@ -434,21 +426,12 @@ class AdUnitId {
     String newMainFunc =
         mainFunc.replaceAll('WidgetsFlutterBinding.ensureInitialized();', '');
 
-    String newMainOpening = mainOpening +
-        """\nWidgetsFlutterBinding.ensureInitialized();
-  // Initialize the SDK before making an ad request.
-  // You can check each adapter's initialization status in the callback.
-  MobileAds.instance.initialize().then((initializationStatus) {
-    initializationStatus.adapterStatuses.forEach((key, value) {
-      debugPrint('Adapter status for \$key: \${value.description}');
-    });
-  });""";
+    String newMainOpening = mainOpening + MAIN_CODE;
 
     newMainFunc = newMainFunc.replaceAll(mainOpening, newMainOpening);
     mainData = mainData.replaceAll(mainFunc, newMainFunc);
 
-    mainData = "import 'package:google_mobile_ads/google_mobile_ads.dart';\n" +
-        mainData;
-    saveFile(PATH_MAIN, mainData);
+    mainData = GOOGLE_MOBILE_AD_IMPORT_CODE + mainData;
+    await saveFile(PATH_MAIN, mainData);
   }
 }

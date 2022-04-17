@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_ads_mediation/data/path_data.dart';
+import 'package:flutter_ads_mediation/data/regex_strings.dart';
 import 'package:flutter_ads_mediation/models/ad_colony.dart';
 import 'package:flutter_ads_mediation/models/app_lovin.dart';
 import 'package:flutter_ads_mediation/models/facebook.dart';
@@ -40,16 +41,6 @@ class AndroidSetup {
     });
   }
 
-  Future<bool> _fileExists(String path, String error) async {
-    var exists = await File(path).exists();
-    if (exists) {
-      return true;
-    } else {
-      print(error);
-      return false;
-    }
-  }
-
   // This is the setup just for AdColony mediation
   // Further info : https://developers.google.com/admob/android/mediation/adcolony
   _gradlePropertiesSetup() async {
@@ -81,9 +72,7 @@ class AndroidSetup {
 
   // IOS : Function to update the Podfile file (add sdk dependencies)
   _iosPodfileUpdate() async {
-    var exists = await _fileExists(
-        PATH_TO_PODFILE, 'ERROR > File Doesnt Exists : $PATH_TO_PODFILE');
-    if (!exists) {
+    if (!await fileExists(PATH_TO_PODFILE)) {
       return;
     }
     // Reading Podfile contents from file
@@ -129,9 +118,7 @@ class AndroidSetup {
 
   // IOS : Function to update the info.plist file (adding mediation setup)
   _iosInfoPlistUpdate() async {
-    var exists = await _fileExists(
-        PATH_TO_PLIST, 'ERROR > File Doesnt Exists : $PATH_TO_PLIST');
-    if (!exists) {
+    if (!await fileExists(PATH_TO_PLIST)) {
       return;
     }
     // Reading Info.plist contents from file
@@ -224,9 +211,7 @@ class AndroidSetup {
 
   // Android : Function to update the AndroidManifest.xml file (adding mediation setup)
   _androidManifestUpdate() async {
-    var exists = await _fileExists(
-        PATH_MANIFEST, 'ERROR > File Doesnt Exists : $PATH_MANIFEST');
-    if (!exists) {
+    if (!await fileExists(PATH_MANIFEST)) {
       return;
     }
 
@@ -284,9 +269,7 @@ class AndroidSetup {
 
   // Android : Function to update the app level build.gradle file (add sdk dependencies)
   _buildGradleUpdate() async {
-    var exists = await _fileExists(PATH_APP_LEVEL_GRADLE,
-        'ERROR > File Doesnt Exists : $PATH_APP_LEVEL_GRADLE');
-    if (!exists) {
+    if (!await fileExists(PATH_APP_LEVEL_GRADLE)) {
       return;
     }
     String gradleData = await File(PATH_APP_LEVEL_GRADLE).readAsString();
@@ -389,15 +372,14 @@ class AdUnitId {
 """;
 
     // Adding banner ad id
-    String? exp = RegExp(r'(static)\s*(String)\s*banner\s*=(\s*).*[\;]')
-        .firstMatch(adUnitIdClass)
-        ?.group(0);
+    String? exp =
+        RegExp(BANNER_AD_REGEX_STRING).firstMatch(adUnitIdClass)?.group(0);
     if (exp != null)
       adUnitIdClass = adUnitIdClass.replaceAll(exp,
           "static String banner = Platform.isAndroid ? '${_google.bannerAndroid}' : '${_google.bannerIOS}';");
 
     // Adding ad manager banner ad id
-    exp = RegExp(r'(static)\s*(String)\s*adManagerBanner\s*=(\s*).*[\;]')
+    exp = RegExp(AD_MANAGER_BANNER_ID_REGEX_STRING)
         .firstMatch(adUnitIdClass)
         ?.group(0);
     if (exp != null)
@@ -405,7 +387,7 @@ class AdUnitId {
           "static String adManagerBanner = Platform.isAndroid ? '${_google.adManagerBannerAndroid}' : '${_google.adManagerBannerIOS}';");
 
     // Adding interstitial ad id
-    exp = RegExp(r'(static)\s*(String)\s*interstitial\s*=(\s*).*[\;]')
+    exp = RegExp(INTERSTITIAL_AD_REGEX_STRING)
         .firstMatch(adUnitIdClass)
         ?.group(0);
     if (exp != null)
@@ -413,9 +395,7 @@ class AdUnitId {
           "static String interstitial = Platform.isAndroid ? '${_google.interstitialAndroid}' : '${_google.interstitialIOS}';");
 
     // Adding rewarded ad id
-    exp = RegExp(r'(static)\s*(String)\s*rewarded\s*=(\s*).*[\;]')
-        .firstMatch(adUnitIdClass)
-        ?.group(0);
+    exp = RegExp(REWARDED_AD_REGEX_STRING).firstMatch(adUnitIdClass)?.group(0);
     if (exp != null)
       adUnitIdClass = adUnitIdClass.replaceAll(exp,
           "static String rewarded = Platform.isAndroid ? '${_google.rewardedAndroid}' : '${_google.rewardedIOS}';");
@@ -426,18 +406,12 @@ class AdUnitId {
     });
   }
 
-  Future<File> _saveManifestFile(String fileData) async {
-    return await File(PATH_MANIFEST).writeAsString(fileData);
-  }
-
   Future<File> _saveFile(String filePath, String data) async {
     return await File(filePath).writeAsString(data);
   }
 
   _getMainCode() async {
-    var exists =
-        await _fileExists(PATH_MAIN, 'ERROR > File Doesnt Exists : $PATH_MAIN');
-    if (!exists) {
+    if (!await fileExists(PATH_MAIN)) {
       return;
     }
     String mainData = await File(PATH_MAIN).readAsString();

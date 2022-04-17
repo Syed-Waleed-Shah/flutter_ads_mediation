@@ -40,6 +40,10 @@ Future<void> deleteOldDirectories(
   }
 }
 
-Future<bool> fileExists(String filePath) async {
-  return await File(filePath).exists();
+Future<bool> fileExists(String path) async {
+  if (!await File(path).exists()) {
+    print('ERROR > File Does not exist : ' + path);
+    return false;
+  }
+  return true;
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_ads_mediation/data/path_data.dart';
 import 'package:flutter_ads_mediation/models/ad_colony.dart';
 import 'package:flutter_ads_mediation/models/app_lovin.dart';
 import 'package:flutter_ads_mediation/models/facebook.dart';
@@ -9,36 +10,11 @@ import 'package:flutter_ads_mediation/utils/file_utils.dart';
 import 'package:xml/xml.dart';
 
 class AndroidSetup {
-  final String PATH_MANIFEST = 'android/app/src/main/AndroidManifest.xml';
-  final String APP_LEVEL_GRADLE = 'android/app/build.gradle';
-  final String PLIST_PATH = 'ios/Runner/Info.plist';
-  final String PODFILE_PATH = 'ios/Podfile';
-  final String AD_UNIT_ID_PATH = 'lib/ad_unit_ids/ad_unit_id.dart';
-  final String MAIN_PATH = 'lib/main.dart';
-  final String GRADLE_PROPERTIES_PATH = 'android/gradle.properties';
-
   final String jsonFilePath;
   late AppLovin _appLovin;
   late Google _google;
   late Facebook _facebook;
   late AdColony _adColony;
-
-  final String APPLICATION_ID = """\n        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="APPLICATION_ID_HERE"/>""";
-  final String APPLOVIN_SDK_KEY = """<meta-data
-            android:name="applovin.sdk.key"
-            android:value="APPLOVIN_SDK_KEY_HERE" />""";
-
-  final String PODFILE_GOOGLE_IMPORT = """pod 'Google-Mobile-Ads-SDK'""";
-  final String PODFILE_APPLOVIN_IMPORT =
-      """pod 'GoogleMobileAdsMediationAppLovin'""";
-
-  final String PODFILE_FACEBOOK_IMPORT =
-      """pod 'GoogleMobileAdsMediationFacebook'""";
-
-  final String PODFILE_ADCOLONY_IMPORT =
-      """pod 'GoogleMobileAdsMediationAdColony'""";
 
   AndroidSetup(this.jsonFilePath);
   Future<void> process() async {
@@ -50,8 +26,6 @@ class AndroidSetup {
       print('The json file you provided doesnt exists!');
     }
   }
-
-  _nativeCodeGeneration() {}
 
   _platformSpecificSetup() async {
     Future.delayed(Duration(seconds: 2)).then((value) {

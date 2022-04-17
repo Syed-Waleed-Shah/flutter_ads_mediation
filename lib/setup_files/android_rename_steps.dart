@@ -18,10 +18,10 @@ class AndroidRenameSteps {
     }
     String? contents = await readFileAsString(PATH_BUILD_GRADLE);
 
-    var reg =
+    RegExp reg =
         RegExp('applicationId "(.*)"', caseSensitive: true, multiLine: false);
 
-    var name = reg.firstMatch(contents!)!.group(1);
+    String? name = reg.firstMatch(contents!)!.group(1);
     oldPackageName = name;
 
     print("Old Package Name: $oldPackageName");
@@ -42,38 +42,40 @@ class AndroidRenameSteps {
   }
 
   Future<void> updateMainActivity() async {
-    String oldPackagePath = oldPackageName!.replaceAll('.', '/');
-    String javaPath = PATH_ACTIVITY + 'java/$oldPackagePath/MainActivity.java';
-    String kotlinPath =
-        PATH_ACTIVITY + 'kotlin/$oldPackagePath/MainActivity.kt';
+    String _oldPackagePath = oldPackageName!.replaceAll('.', '/');
+    String _newPackagePath = newPackageName.replaceAll('.', '/');
 
-    String newPackagePath = newPackageName.replaceAll('.', '/');
-    String newJavaPath =
-        PATH_ACTIVITY + 'java/$newPackagePath/MainActivity.java';
-    String newKotlinPath =
-        PATH_ACTIVITY + 'kotlin/$newPackagePath/MainActivity.kt';
+    String _javaPath =
+        PATH_ACTIVITY + 'java/$_oldPackagePath/MainActivity.java';
+    String _newJavaPath =
+        PATH_ACTIVITY + 'java/$_newPackagePath/MainActivity.java';
 
-    if (await File(javaPath).exists()) {
+    String _kotlinPath =
+        PATH_ACTIVITY + 'kotlin/$_oldPackagePath/MainActivity.kt';
+    String _newKotlinPath =
+        PATH_ACTIVITY + 'kotlin/$_newPackagePath/MainActivity.kt';
+
+    if (await File(_javaPath).exists()) {
       print('Project is using Java');
       print('Updating MainActivity.java');
-      await _replace(javaPath);
+      await _replace(_javaPath);
 
       print('Creating New Directory Structure');
-      await Directory(PATH_ACTIVITY + 'java/$newPackagePath')
+      await Directory(PATH_ACTIVITY + 'java/$_newPackagePath')
           .create(recursive: true);
-      await File(javaPath).rename(newJavaPath);
+      await File(_javaPath).rename(_newJavaPath);
 
       print('Deleting old directories');
       await deleteOldDirectories('java', oldPackageName!, PATH_ACTIVITY);
-    } else if (await File(kotlinPath).exists()) {
+    } else if (await File(_kotlinPath).exists()) {
       print('Project is using kotlin');
       print('Updating MainActivity.kt');
-      await _replace(kotlinPath);
+      await _replace(_kotlinPath);
 
       print('Creating New Directory Structure');
-      await Directory(PATH_ACTIVITY + 'kotlin/$newPackagePath')
+      await Directory(PATH_ACTIVITY + 'kotlin/$_newPackagePath')
           .create(recursive: true);
-      await File(kotlinPath).rename(newKotlinPath);
+      await File(_kotlinPath).rename(_newKotlinPath);
 
       print('Deleting old directories');
       await deleteOldDirectories('kotlin', oldPackageName!, PATH_ACTIVITY);

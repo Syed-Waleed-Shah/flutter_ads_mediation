@@ -364,8 +364,9 @@ class AndroidSetup {
   }
 
   _loadObjects(String filePath) async {
-    String jsonAsString = await File(filePath).readAsString();
-    var decodedJsonFile = json.decode(jsonAsString) as Map<String, dynamic>;
+    String _jsonAsString = await File(filePath).readAsString();
+    Map<String, dynamic> decodedJsonFile =
+        json.decode(_jsonAsString) as Map<String, dynamic>;
     _appLovin = AppLovin.fromJson(decodedJsonFile['AppLovin']);
     _google = Google.fromJson(decodedJsonFile['Google']);
     _facebook = Facebook.fromJson(decodedJsonFile['Facebook']);
@@ -388,7 +389,6 @@ class AdUnitId {
 """;
 
     // Adding banner ad id
-
     String? exp = RegExp(r'(static)\s*(String)\s*banner\s*=(\s*).*[\;]')
         .firstMatch(adUnitIdClass)
         ?.group(0);
@@ -411,8 +411,8 @@ class AdUnitId {
     if (exp != null)
       adUnitIdClass = adUnitIdClass.replaceAll(exp,
           "static String interstitial = Platform.isAndroid ? '${_google.interstitialAndroid}' : '${_google.interstitialIOS}';");
-    // Adding rewarded ad id
 
+    // Adding rewarded ad id
     exp = RegExp(r'(static)\s*(String)\s*rewarded\s*=(\s*).*[\;]')
         .firstMatch(adUnitIdClass)
         ?.group(0);

@@ -12,11 +12,36 @@ import 'package:flutter_ads_mediation/models/google_model.dart';
 import 'package:xml/xml.dart';
 
 class AndroidSetup {
+  final String pathManifest = 'android/app/src/main/AndroidManifest.xml';
+  final String appLevelGradle = 'android/app/build.gradle';
+  final String plistPath = 'ios/Runner/Info.plist';
+  final String podfilePath = 'ios/Podfile';
+  final String adUnitIdPath = 'lib/ad_unit_ids/ad_unit_id.dart';
+  final String mainPath = 'lib/main.dart';
+  final String gradlePropertiesPath = 'android/gradle.properties';
+
   final String jsonFilePath;
   late AppLovin _appLovin;
   late Google _google;
   late Facebook _facebook;
   late AdColony _adColony;
+
+  final String applicationId = """\n        <meta-data
+            android:name="com.google.android.gms.ads.applicationId"
+            android:value="applicationId_HERE"/>""";
+  final String appLovinSdkKey = """<meta-data
+            android:name="applovin.sdk.key"
+            android:value="appLovinSdkKey_HERE" />""";
+
+  final String podfileGoogleImport = """pod 'Google-Mobile-Ads-SDK'""";
+  final String podfileAppLovinImport =
+      """pod 'GoogleMobileAdsMediationAppLovin'""";
+
+  final String podfileFacebookImport =
+      """pod 'GoogleMobileAdsMediationFacebook'""";
+
+  final String podfileAdColonyImport =
+      """pod 'GoogleMobileAdsMediationAdColony'""";
 
   AndroidSetup(this.jsonFilePath);
   Future<void> process() async {

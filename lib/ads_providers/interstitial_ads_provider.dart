@@ -1,20 +1,38 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_ads_mediation/google_ads/test_ad_ids.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class InterstitialAdsProvider {
-  InterstitialAd? _interstitialAd;
+  InterstitialAd? _ad;
   int _numInterstitialLoadAttempts = 0;
   int maxFailedLoadAttempts = 3;
   final String interstitialAdId;
+  int retries = 0;
+  bool _loaded = false;
+  final bool? nonPersonalized;
+  final List<String>? keywords;
+  final LocationParams? location;
+  final int? httpTimeoutMillis;
+  final String? contentUrl;
+  Map<String, String>? extras;
+  String? mediationExtrasIdentifier;
+  List<String>? neighboringContentUrls;
 
-  static final AdRequest request = AdRequest(
-    keywords: <String>['foo', 'bar'],
-    contentUrl: 'http://foo.com/bar.html',
-    nonPersonalizedAds: true,
-  );
+  get available {
+    return _loaded == true && _ad != null;
+  }
 
-  InterstitialAdsProvider({required this.interstitialAdId}) {
+  InterstitialAdsProvider({
+    required this.interstitialAdId,
+    this.nonPersonalized,
+    this.extras,
+    this.keywords,
+    this.location,
+    this.httpTimeoutMillis,
+    this.mediationExtrasIdentifier,
+    this.neighboringContentUrls,
+    this.contentUrl,
+  }) {
     _initialize();
   }
 
@@ -23,24 +41,36 @@ class InterstitialAdsProvider {
   }
 
   void _createInterstitialAd() {
+    _loaded = false;
+    AdRequest request = AdRequest(
+      keywords: keywords,
+      contentUrl: contentUrl,
+      nonPersonalizedAds: true,
+      extras: extras,
+      httpTimeoutMillis: httpTimeoutMillis,
+      location: location,
+      mediationExtrasIdentifier: mediationExtrasIdentifier,
+      neighboringContentUrls: neighboringContentUrls,
+    );
     InterstitialAd.load(
       adUnitId: interstitialAdId.isEmpty
-          ? InterstitialAd.testAdUnitId
+          ? TestAdsIds.testAdUnitIdInterstitial
           : kReleaseMode
               ? interstitialAdId
-              : InterstitialAd.testAdUnitId,
+              : TestAdsIds.testAdUnitIdInterstitial,
       request: request,
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
           print('$ad loaded');
-          _interstitialAd = ad;
+          _loaded = true;
+          _ad = ad;
           _numInterstitialLoadAttempts = 0;
-          _interstitialAd!.setImmersiveMode(true);
+          _ad!.setImmersiveMode(true);
         },
         onAdFailedToLoad: (LoadAdError error) {
           print('InterstitialAd failed to load: $error.');
           _numInterstitialLoadAttempts += 1;
-          _interstitialAd = null;
+          _ad = null;
           if (_numInterstitialLoadAttempts <= maxFailedLoadAttempts) {
             _createInterstitialAd();
           }
@@ -50,11 +80,11 @@ class InterstitialAdsProvider {
   }
 
   Future<void> show() async {
-    if (_interstitialAd == null) {
+    if (_ad == null) {
       print('Warning: attempt to show interstitial before loaded.');
       return;
     }
-    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+    _ad!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
           print('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
@@ -68,11 +98,17 @@ class InterstitialAdsProvider {
         _createInterstitialAd();
       },
     );
-    _interstitialAd!.show();
-    _interstitialAd = null;
+
+    _ad!.show();
+    _ad = null;
+  }
+
+  void retry() {
+    retries++;
+    _initialize();
   }
 
   void dispose() {
-    _interstitialAd?.dispose();
+    _ad?.dispose();
   }
 }

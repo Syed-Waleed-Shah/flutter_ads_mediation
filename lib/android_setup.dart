@@ -10,13 +10,13 @@ import 'package:xml/xml.dart';
 import 'file_utils.dart';
 
 class AndroidSetup {
-  final String PATH_MANIFEST = 'android/app/src/main/AndroidManifest.xml';
-  final String APP_LEVEL_GRADLE = 'android/app/build.gradle';
-  final String PLIST_PATH = 'ios/Runner/Info.plist';
-  final String PODFILE_PATH = 'ios/Podfile';
-  final String AD_UNIT_ID_PATH = 'lib/ad_unit_ids/ad_unit_id.dart';
-  final String MAIN_PATH = 'lib/main.dart';
-  final String GRADLE_PROPERTIES_PATH = 'android/gradle.properties';
+  final String pathManifest = 'android/app/src/main/AndroidManifest.xml';
+  final String appLevelGradle = 'android/app/build.gradle';
+  final String plistPath = 'ios/Runner/Info.plist';
+  final String podfilePath = 'ios/Podfile';
+  final String adUnitIdPath = 'lib/ad_unit_ids/ad_unit_id.dart';
+  final String mainPath = 'lib/main.dart';
+  final String gradlePropertiesPath = 'android/gradle.properties';
 
   final String jsonFilePath;
   late AppLovin _appLovin;
@@ -24,21 +24,21 @@ class AndroidSetup {
   late Facebook _facebook;
   late AdColony _adColony;
 
-  final String APPLICATION_ID = """\n        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="APPLICATION_ID_HERE"/>""";
-  final String APPLOVIN_SDK_KEY = """<meta-data
+  final String applicationId = """\n        <meta-data
+            android:name="com.google.android.gms.ads.applicationId"
+            android:value="applicationId_HERE"/>""";
+  final String appLovinSdkKey = """<meta-data
             android:name="applovin.sdk.key"
-            android:value="APPLOVIN_SDK_KEY_HERE" />""";
+            android:value="appLovinSdkKey_HERE" />""";
 
-  final String PODFILE_GOOGLE_IMPORT = """pod 'Google-Mobile-Ads-SDK'""";
-  final String PODFILE_APPLOVIN_IMPORT =
+  final String podfileGoogleImport = """pod 'Google-Mobile-Ads-SDK'""";
+  final String podfileAppLovinImport =
       """pod 'GoogleMobileAdsMediationAppLovin'""";
 
-  final String PODFILE_FACEBOOK_IMPORT =
+  final String podfileFacebookImport =
       """pod 'GoogleMobileAdsMediationFacebook'""";
 
-  final String PODFILE_ADCOLONY_IMPORT =
+  final String podfileAdColonyImport =
       """pod 'GoogleMobileAdsMediationAdColony'""";
 
   AndroidSetup(this.jsonFilePath);
@@ -51,8 +51,6 @@ class AndroidSetup {
       print('The json file you provided doesnt exists!');
     }
   }
-
-  _nativeCodeGeneration() {}
 
   _platformSpecificSetup() async {
     Future.delayed(Duration(seconds: 2)).then((value) {
@@ -84,10 +82,10 @@ class AndroidSetup {
     String str1 = 'android.useAndroidX=true';
     String str2 = 'android.enableJetifier=true';
     String data = '';
-    if (await File(GRADLE_PROPERTIES_PATH).exists()) {
-      data = await File(GRADLE_PROPERTIES_PATH).readAsString();
+    if (await File(gradlePropertiesPath).exists()) {
+      data = await File(gradlePropertiesPath).readAsString();
     } else {
-      File(AD_UNIT_ID_PATH).create(recursive: true);
+      File(adUnitIdPath).create(recursive: true);
     }
 
     // Replaceing useAndroidX = true
@@ -103,18 +101,18 @@ class AndroidSetup {
     data += '\n$str1';
     data += '\n$str2';
 
-    _saveFile(GRADLE_PROPERTIES_PATH, data);
+    _saveFile(gradlePropertiesPath, data);
   }
 
   // IOS : Function to update the Podfile file (add sdk dependencies)
   _iosPodfileUpdate() async {
     var exists = await _fileExists(
-        PODFILE_PATH, 'ERROR > File Doesnt Exists : $PODFILE_PATH');
+        podfilePath, 'ERROR > File Doesnt Exists : $podfilePath');
     if (!exists) {
       return;
     }
     // Reading Podfile contents from file
-    String plistData = await File(PODFILE_PATH).readAsString();
+    String plistData = await File(podfilePath).readAsString();
 
     // Reg expression match to find dependency import for google ads
     RegExp google = RegExp(r"(pod)\s*'Google-Mobile-Ads-SDK'");
@@ -134,35 +132,35 @@ class AndroidSetup {
 
     // Adding google ads dependency import when dependency import doesnt exists for google ads
     if (googleImport == null) {
-      plistData += '\n$PODFILE_GOOGLE_IMPORT';
+      plistData += '\n$podfileGoogleImport';
     }
     // Adding appLovin ads dependency import when dependency import doesnt exists for appLovin ads
     if (_appLovin.doSetup && appLovinImport == null) {
-      plistData += '\n$PODFILE_APPLOVIN_IMPORT';
+      plistData += '\n$podfileAppLovinImport';
     }
 
     // Adding facebook ads dependency import when dependency import doesnt exists for facebook ads
     if (_facebook.doSetup && facebookImport == null) {
-      plistData += '\n$PODFILE_FACEBOOK_IMPORT';
+      plistData += '\n$podfileFacebookImport';
     }
 
     // Adding adColony ads dependency import when dependency import doesnt exists for AdColony ads
     if (_adColony.doSetup && adColonyImport == null) {
-      plistData += '\n$PODFILE_ADCOLONY_IMPORT';
+      plistData += '\n$podfileAdColonyImport';
     }
     // Saving the updated Podfile
-    await _saveFile(PODFILE_PATH, plistData);
+    await _saveFile(podfilePath, plistData);
   }
 
   // IOS : Function to update the info.plist file (adding mediation setup)
   _iosInfoPlistUpdate() async {
-    var exists = await _fileExists(
-        PLIST_PATH, 'ERROR > File Doesnt Exists : $PLIST_PATH');
+    var exists =
+        await _fileExists(plistPath, 'ERROR > File Doesnt Exists : $plistPath');
     if (!exists) {
       return;
     }
     // Reading Info.plist contents from file
-    String plistData = await File(PLIST_PATH).readAsString();
+    String plistData = await File(plistPath).readAsString();
     // Creating xml object
     final document = XmlDocument.parse(plistData);
     // Extracting the keys from the Info.plist file which is at <plist><dict>(all keys are here)</dict></plist>
@@ -246,18 +244,18 @@ class AndroidSetup {
     // Prettifying (formatting) updated Info.plist data
     String updatedPlistData = document.toXmlString(pretty: true, indent: '\t');
     // Saving the updated Info.plist data
-    await _saveFile(PLIST_PATH, updatedPlistData);
+    await _saveFile(plistPath, updatedPlistData);
   }
 
   // Android : Function to update the AndroidManifest.xml file (adding mediation setup)
   _androidManifestUpdate() async {
     var exists = await _fileExists(
-        PATH_MANIFEST, 'ERROR > File Doesnt Exists : $PATH_MANIFEST');
+        pathManifest, 'ERROR > File Doesnt Exists : $pathManifest');
     if (!exists) {
       return;
     }
 
-    String manifestData = await File(PATH_MANIFEST).readAsString();
+    String manifestData = await File(pathManifest).readAsString();
     final document = XmlDocument.parse(manifestData);
     List<XmlElement> metadatas = document.children.first
         .findAllElements('application')
@@ -272,7 +270,7 @@ class AndroidSetup {
 
     metadatas.forEach((element) {
       if (element.attributes[0].value ==
-          'com.google.android.gms.ads.APPLICATION_ID') {
+          'com.google.android.gms.ads.applicationId') {
         application.remove(element);
         element.attributes[1].value = _google.appIdAndroid;
         application.insert(0, element);
@@ -289,7 +287,7 @@ class AndroidSetup {
 
     if (!_googleConfigured) {
       var nameAttr = XmlAttribute(
-          XmlName('android:name'), 'com.google.android.gms.ads.APPLICATION_ID');
+          XmlName('android:name'), 'com.google.android.gms.ads.applicationId');
       var valueAttr =
           XmlAttribute(XmlName('android:value'), '${_google.appIdAndroid}');
       application.insert(
@@ -306,17 +304,17 @@ class AndroidSetup {
 
     String updatedManifestData =
         document.toXmlString(pretty: true, indent: '\t');
-    await _saveFile(PATH_MANIFEST, updatedManifestData);
+    await _saveFile(pathManifest, updatedManifestData);
   }
 
   // Android : Function to update the app level build.gradle file (add sdk dependencies)
   _buildGradleUpdate() async {
     var exists = await _fileExists(
-        APP_LEVEL_GRADLE, 'ERROR > File Doesnt Exists : $APP_LEVEL_GRADLE');
+        appLevelGradle, 'ERROR > File Doesnt Exists : $appLevelGradle');
     if (!exists) {
       return;
     }
-    String gradleData = await File(APP_LEVEL_GRADLE).readAsString();
+    String gradleData = await File(appLevelGradle).readAsString();
     String dependenciesBlock =
         RegExp(r'(dependencies)\s*.*{').firstMatch(gradleData)!.group(0)!;
 
@@ -366,7 +364,7 @@ class AndroidSetup {
 
     gradleData =
         gradleData.replaceAll(dependenciesBlockData, updatedDependenciesBlock);
-    await File(APP_LEVEL_GRADLE).writeAsString(gradleData);
+    await File(appLevelGradle).writeAsString(gradleData);
   }
 
   // Function to add sdk implementation in build.gradle file
@@ -447,14 +445,10 @@ class AdUnitId {
       adUnitIdClass = adUnitIdClass.replaceAll(exp,
           "static String rewarded = Platform.isAndroid ? '${_google.rewardedAndroid}' : '${_google.rewardedIOS}';");
 
-    File(AD_UNIT_ID_PATH).create(recursive: true);
+    File(adUnitIdPath).create(recursive: true);
     await Future.delayed(Duration(seconds: 5)).then((value) {
-      _saveFile(AD_UNIT_ID_PATH, adUnitIdClass);
+      _saveFile(adUnitIdPath, adUnitIdClass);
     });
-  }
-
-  Future<File> _saveManifestFile(String fileData) async {
-    return await File(PATH_MANIFEST).writeAsString(fileData);
   }
 
   Future<File> _saveFile(String filePath, String data) async {
@@ -463,11 +457,11 @@ class AdUnitId {
 
   _getMainCode() async {
     var exists =
-        await _fileExists(MAIN_PATH, 'ERROR > File Doesnt Exists : $MAIN_PATH');
+        await _fileExists(mainPath, 'ERROR > File Doesnt Exists : $mainPath');
     if (!exists) {
       return;
     }
-    String mainData = await File(MAIN_PATH).readAsString();
+    String mainData = await File(mainPath).readAsString();
 
     String mainOpening =
         RegExp(r'(main\(\))\s*.*{').firstMatch(mainData)!.group(0)!;
@@ -505,6 +499,6 @@ class AdUnitId {
 
     mainData = "import 'package:google_mobile_ads/google_mobile_ads.dart';\n" +
         mainData;
-    _saveFile(MAIN_PATH, mainData);
+    _saveFile(mainPath, mainData);
   }
 }

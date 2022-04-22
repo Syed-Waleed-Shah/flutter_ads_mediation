@@ -7,7 +7,7 @@ Future<void> replaceInFile(String path, oldPackage, newPackage) async {
     return;
   }
   contents = contents.replaceAll(oldPackage, newPackage);
-  await writeFileFromString(path, contents);
+  await saveFile(path, contents);
 }
 
 Future<String?> readFileAsString(String path) async {
@@ -18,11 +18,6 @@ Future<String?> readFileAsString(String path) async {
     contents = await file.readAsString();
   }
   return contents;
-}
-
-Future<void> writeFileFromString(String path, String contents) async {
-  var file = File(path);
-  await file.writeAsString(contents);
 }
 
 Future<void> deleteOldDirectories(
@@ -40,6 +35,14 @@ Future<void> deleteOldDirectories(
   }
 }
 
-Future<bool> fileExists(String filePath) async {
-  return await File(filePath).exists();
+Future<File> saveFile(String filePath, String data) async {
+  return await File(filePath).writeAsString(data);
+}
+
+Future<bool> fileExists(String path) async {
+  if (!await File(path).exists()) {
+    print('ERROR > File Does not exist : ' + path);
+    return false;
+  }
+  return true;
 }

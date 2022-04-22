@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_ads_mediation/google_ads/test_ad_ids.dart';
+import 'package:flutter_ads_mediation/ads_providers/test_ad_ids.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdsProvider {

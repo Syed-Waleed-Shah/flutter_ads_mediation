@@ -36,7 +36,7 @@ class BannerAdsProvider {
     this.keywords,
     this.contentUrl,
     this.neighboringContentUrls,
-    this.nonPersonalizedAds,
+    this.nonPersonalizedAds = true,
     this.httpTimeoutMillis,
     this.location,
     this.mediationExtrasIdentifier,
@@ -49,7 +49,7 @@ class BannerAdsProvider {
     AdRequest request = AdRequest(
       keywords: keywords,
       contentUrl: contentUrl,
-      nonPersonalizedAds: true,
+      nonPersonalizedAds: nonPersonalizedAds,
       extras: extras,
       httpTimeoutMillis: httpTimeoutMillis,
       location: location,

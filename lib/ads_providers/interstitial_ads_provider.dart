@@ -24,7 +24,7 @@ class InterstitialAdsProvider {
 
   InterstitialAdsProvider({
     required this.interstitialAdId,
-    this.nonPersonalized,
+    this.nonPersonalized = true,
     this.extras,
     this.keywords,
     this.location,

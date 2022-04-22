@@ -18,6 +18,8 @@ class RewardedAdsProvider {
   final String? mediationExtrasIdentifier;
   final Map<String, String>? extras;
   final void Function(AdWithoutView, RewardItem)? onUserEarnedReward;
+  final void Function(RewardedAd)? onAdLoaded;
+  final void Function(LoadAdError)? onAdFailedToLoad;
 
   get available {
     return _loaded == true && _ad != null;
@@ -28,12 +30,14 @@ class RewardedAdsProvider {
     this.keywords,
     this.contentUrl,
     this.neighboringContentUrls,
-    this.nonPersonalizedAds,
+    this.nonPersonalizedAds = true,
     this.httpTimeoutMillis,
     this.location,
     this.mediationExtrasIdentifier,
     this.extras,
     this.onUserEarnedReward,
+    this.onAdLoaded,
+    this.onAdFailedToLoad,
   }) {
     _initialize();
   }
@@ -66,9 +70,6 @@ class RewardedAdsProvider {
   }
 
   void _createRewardedAd() {
-    if (rewardedAdId.isEmpty) {
-      print('RewardedAdId: $rewardedAdId');
-    }
     _loaded = false;
     AdRequest request = AdRequest(
       keywords: keywords,
@@ -89,25 +90,27 @@ class RewardedAdsProvider {
               : TestAdsIds.testAdUnitIdRewarded,
       request: request,
       rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (RewardedAd ad) {
-          print('$ad loaded.');
-          _loaded = true;
-          _ad = ad;
-          _numRewardedLoadAttempts = 0;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          var adId = rewardedAdId.isEmpty
-              ? TestAdsIds.testAdUnitIdRewarded
-              : rewardedAdId;
-          print('RewardedAd failed to load: $error');
-          print('RewardedAd Id: $adId');
-          print('RewardedAd attempts : $_numRewardedLoadAttempts');
-          _ad = null;
-          _numRewardedLoadAttempts += 1;
-          if (_numRewardedLoadAttempts <= maxFailedLoadAttempts) {
-            _createRewardedAd();
-          }
-        },
+        onAdLoaded: onAdLoaded ??
+            (RewardedAd ad) {
+              print('$ad loaded.');
+              _loaded = true;
+              _ad = ad;
+              _numRewardedLoadAttempts = 0;
+            },
+        onAdFailedToLoad: onAdFailedToLoad ??
+            (LoadAdError error) {
+              var adId = rewardedAdId.isEmpty
+                  ? TestAdsIds.testAdUnitIdRewarded
+                  : rewardedAdId;
+              print('RewardedAd failed to load: $error');
+              print('RewardedAd Id: $adId');
+              print('RewardedAd attempts : $_numRewardedLoadAttempts');
+              _ad = null;
+              _numRewardedLoadAttempts += 1;
+              if (_numRewardedLoadAttempts <= maxFailedLoadAttempts) {
+                _createRewardedAd();
+              }
+            },
       ),
     );
   }

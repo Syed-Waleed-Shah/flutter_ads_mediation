@@ -6,4 +6,3 @@ class AdUnitId {
   static String interstitial = Platform.isAndroid ? '' : '';
   static String rewarded = Platform.isAndroid ? '' : '';
 }
-

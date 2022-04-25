@@ -17,7 +17,7 @@ class BannerAdsProvider {
   final LocationParams? location;
   final String? mediationExtrasIdentifier;
   final Map<String, String>? extras;
-
+  void Function(Ad)? onAdLoaded;
   void Function(Ad, LoadAdError)? onAdFailedToLoad;
   void Function(Ad)? onAdOpened;
   void Function(Ad)? onAdClosed;
@@ -30,6 +30,7 @@ class BannerAdsProvider {
 
   BannerAdsProvider({
     required this.bannerAdId,
+    this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdClosed,
     this.onAdOpened,
@@ -65,10 +66,11 @@ class BannerAdsProvider {
               ? bannerAdId
               : TestAdsIds.testAdUnitIdBanner,
       listener: BannerAdListener(
-        onAdLoaded: (Ad ad) {
-          print('$BannerAd loaded.');
-          _loaded = true;
-        },
+        onAdLoaded: onAdLoaded ??
+            (Ad ad) {
+              print('$BannerAd loaded.');
+              _loaded = true;
+            },
         onAdFailedToLoad: onAdFailedToLoad ??
             (Ad ad, LoadAdError error) {
               print('$BannerAd failedToLoad: $error');

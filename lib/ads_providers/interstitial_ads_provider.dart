@@ -17,6 +17,8 @@ class InterstitialAdsProvider {
   Map<String, String>? extras;
   String? mediationExtrasIdentifier;
   List<String>? neighboringContentUrls;
+  void Function(InterstitialAd)? onAdLoaded;
+  void Function(LoadAdError)? onAdFailedToLoad;
 
   get available {
     return _loaded == true && _ad != null;
@@ -32,6 +34,8 @@ class InterstitialAdsProvider {
     this.mediationExtrasIdentifier,
     this.neighboringContentUrls,
     this.contentUrl,
+    this.onAdLoaded,
+    this.onAdFailedToLoad,
   }) {
     _initialize();
   }
@@ -60,21 +64,23 @@ class InterstitialAdsProvider {
               : TestAdsIds.testAdUnitIdInterstitial,
       request: request,
       adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          print('$ad loaded');
-          _loaded = true;
-          _ad = ad;
-          _numInterstitialLoadAttempts = 0;
-          _ad!.setImmersiveMode(true);
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          print('InterstitialAd failed to load: $error.');
-          _numInterstitialLoadAttempts += 1;
-          _ad = null;
-          if (_numInterstitialLoadAttempts <= maxFailedLoadAttempts) {
-            _createInterstitialAd();
-          }
-        },
+        onAdLoaded: onAdLoaded ??
+            (InterstitialAd ad) {
+              print('$ad loaded');
+              _loaded = true;
+              _ad = ad;
+              _numInterstitialLoadAttempts = 0;
+              _ad!.setImmersiveMode(true);
+            },
+        onAdFailedToLoad: onAdFailedToLoad ??
+            (LoadAdError error) {
+              print('InterstitialAd failed to load: $error.');
+              _numInterstitialLoadAttempts += 1;
+              _ad = null;
+              if (_numInterstitialLoadAttempts <= maxFailedLoadAttempts) {
+                _createInterstitialAd();
+              }
+            },
       ),
     );
   }

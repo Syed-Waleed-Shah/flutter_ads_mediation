@@ -11,4 +11,4 @@ dependencies:
     sdk: flutter
   google_mobile_ads: ^1.0.1
   path: ^1.8.0
-  xml: ^5.1.2
+  xml: ^6.0.1
